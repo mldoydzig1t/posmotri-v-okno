@@ -12,6 +12,7 @@ import numpy as np
 
 SR = 44100
 DURATION = 48
+OUT = os.path.join(os.path.dirname(os.path.abspath(__file__)), os.pardir, "audio")
 
 
 def adsr(n, attack=0.25, release=0.6):
