@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Посмотри в окно — виды на города утром, днём и ночью</title>
+  <meta name="description" content="Выберите город и время суток — приложение найдёт окно с видом на этот город: фотография, музыка и медленный дрейф кадра.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Literata:opsz,wght@7..72,300;7..72,500;7..72,700&family=Onest:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles/style.css">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+</head>
+<body>
+  <div class="room" id="room" data-time="night">
+    <header class="masthead">
+      <p class="masthead__mark">По-смотри в окно</p>
+      <p class="masthead__lead">Вид на город глазами тех, кто там живёт. Выберите город и время суток — остальное сделает окно.</p>
+    </header>
+
+    <main class="scene">
+      <section class="panel" id="finder" aria-label="Куда смотрим">
+        <h1 class="panel__title">Куда смотрим</h1>
+
+        <div class="field">
+          <label class="field__label" for="city">Город</label>
+          <div class="select-wrap">
+            <select class="select" id="city" name="city" aria-describedby="city-hint">
+              <option value="" disabled selected>Выберите город</option>
+            </select>
+          </div>
+          <p class="field__hint" id="city-hint">Город подгружается из списка. Если ничего не выбрать, приложение предложит случайный.</p>
+        </div>
+
+        <fieldset class="field field--times">
+          <legend class="field__label">Время суток</legend>
+          <div class="segmented" role="radiogroup" aria-label="Время суток">
+            <label class="segmented__item">
+              <input type="radio" name="time" value="morning">
+              <span class="segmented__label">Утро</span>
+            </label>
+            <label class="segmented__item">
+              <input type="radio" name="time" value="day" checked>
+              <span class="segmented__label">День</span>
+            </label>
+            <label class="segmented__item">
+              <input type="radio" name="time" value="night">
+              <span class="segmented__label">Ночь</span>
+            </label>
+          </div>
+        </fieldset>
+
+        <button class="button" type="button" id="find">Найти окно</button>
+
+        <p class="panel__note">Окно листается по кругу: кнопка «Другое окно» подставит другой город.</p>
+        <p class="status" id="status" role="status" aria-live="polite"></p>
+      </section>
+
+      <section class="window-wrap" aria-label="Найденное окно">
+        <div class="window" id="window" aria-busy="true">
+          <div class="window__frame" aria-hidden="true">
+            <span class="window__mullion window__mullion--v"></span>
+            <span class="window__mullion window__mullion--h"></span>
+          </div>
+
+          <figure class="window__scene">
+            <img class="window__photo" id="photo" alt="" decoding="async">
+          </figure>
+
+          <div class="window__glass" aria-hidden="true"></div>
+
+          <div class="window__empty" id="empty">
+            <p class="window__empty-title">Окно ещё не открыто</p>
+            <p class="window__empty-text">Выберите город и время суток — в раме появится вид на этот город.</p>
+          </div>
+
+          <div class="loader" id="loader" hidden>
+            <span class="loader__ring" aria-hidden="true"></span>
+            <span class="loader__text">Ищем окно…</span>
+          </div>
+
+          <div class="window__error" id="error" hidden>
+            <p class="window__error-title">Стекло запотело</p>
+            <p class="window__error-text" id="error-text">Не удалось загрузить фотографию. Проверьте соединение и попробуйте ещё раз.</p>
+            <button class="button button--ghost" type="button" id="retry">Попробовать снова</button>
+          </div>
+        </div>
+
+        <div class="console">
+          <div class="viewline" id="view-caption" hidden>
+            <p class="viewline__city" id="view-title">—</p>
+            <p class="viewline__country" id="view-country"></p>
+          </div>
+
+          <div class="player">
+            <button class="player__toggle" type="button" id="play" aria-label="Включить музыку">
+              <span class="player__glyph" aria-hidden="true"></span>
+            </button>
+            <div class="player__meta">
+              <p class="player__title" id="track-title">Музыка не выбрана</p>
+              <p class="player__credit" id="track-credit">Выберите город — подберём тихую дорожку</p>
+            </div>
+            <div class="player__level" aria-hidden="true"><span class="player__level-bar" id="level"></span></div>
+          </div>
+
+          <div class="console__row">
+            <p class="credit" id="credit"></p>
+            <button class="button button--quiet" type="button" id="another">Другое окно</button>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <p class="footer__text">Учебный проект «Посмотри в окно». Фотографии — Wikimedia Commons, музыка — открытые лицензии; авторы указаны под кадром.</p>
+    </footer>
+  </div>
+
+  <audio id="audio" preload="none" loop></audio>
+  <script src="scripts/app.js"></script>
+</body>
+</html>
